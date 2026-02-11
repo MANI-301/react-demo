@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "examId": 1,
+    "question": "Which city did the former NHL team \"The Nordiques\" originate from?",
+    "optionA": "Quebec City",
+    "optionB": "New York",
+    "optionC": "Houston",
+    "optionD": "Montreal",
+    "correctOption": "A"
+  },
+  {
+    "id": 2,
+    "examId": 1,
+    "question": "Which year did Jenson Button win his first ever Formula One World Drivers' Championship?",
+    "optionA": "2008",
+    "optionB": "2009",
+    "optionC": "2010",
+    "optionD": "2011",
+    "correctOption": "B"
+  },
+  {
+    "id": 3,
+    "examId": 1,
+    "question": "Roger Federer is a famous soccer player.",
+    "optionA": "True",
+    "optionB": "False",
+    "optionC": "",
+    "optionD": "",
+    "correctOption": "B"
+  },
+  {
+    "id": 4,
+    "examId": 1,
+    "question": "The Los Angeles Dodgers were originally from what U.S. city?",
+    "optionA": "Las Vegas",
+    "optionB": "Chicago",
+    "optionC": "Brooklyn",
+    "optionD": "Boston",
+    "correctOption": "C"
+  },
+  {
+    "id": 5,
+    "examId": 1,
+    "question": "Who won the 2016 Formula 1 World Driver's Championship?",
+    "optionA": "Lewis Hamilton",
+    "optionB": "Max Verstappen",
+    "optionC": "Sebastian Vettel",
+    "optionD": "Nico Rosberg",
+    "correctOption": "D"
+  },
+  {
+    "id": 6,
+    "examId": 2,
+    "question": "What is the chemical symbol for water?",
+    "optionA": "H2O",
+    "optionB": "CO2",
+    "optionC": "NaCl",
+    "optionD": "O2",
+    "correctOption": "A"
+  },
+  {
+    "id": 7,
+    "examId": 2,
+    "question": "What planet is known as the Red Planet?",
+    "optionA": "Venus",
+    "optionB": "Mars",
+    "optionC": "Jupiter",
+    "optionD": "Saturn",
+    "correctOption": "B"
+  },
+  {
+    "id": 8,
+    "examId": 2,
+    "question": "What is the speed of light approximately?",
+    "optionA": "300,000 km/s",
+    "optionB": "150,000 km/s",
+    "optionC": "500,000 km/s",
+    "optionD": "100,000 km/s",
+    "correctOption": "A"
+  },
+  {
+    "id": 9,
+    "examId": 3,
+    "question": "What is 15 × 15?",
+    "optionA": "200",
+    "optionB": "225",
+    "optionC": "250",
+    "optionD": "215",
+    "correctOption": "B"
+  },
+  {
+    "id": 10,
+    "examId": 3,
+    "question": "What is the square root of 144?",
+    "optionA": "10",
+    "optionB": "11",
+    "optionC": "12",
+    "optionD": "14",
+    "correctOption": "C"
+  }
+]
