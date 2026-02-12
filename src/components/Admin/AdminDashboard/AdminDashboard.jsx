@@ -42,7 +42,7 @@ var AdminDashboard = function() {
             <SchoolIcon />
           </Avatar>
           <Box>
-            <Typography variant="h6" sx={{ fontWeight: 700, color: "#fff", fontSize: "1.1rem" }}>QuizME</Typography>
+            <Typography variant="h6" sx={{ fontWeight: 700, color: "#fff", fontSize: "1.1rem" }}>Quiz App</Typography>
             <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.7)", fontSize: "0.75rem" }}>Admin Panel</Typography>
           </Box>
         </Box>

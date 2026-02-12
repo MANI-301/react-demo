@@ -31,7 +31,7 @@ var DashboardHome = function() {
   return (
     <Box>
       <div className="dashboard-welcome">
-        <Typography variant="h4" sx={{ fontWeight: 700 }}>Welcome to QuizME Admin</Typography>
+        <Typography variant="h4" sx={{ fontWeight: 700 }}>Welcome to Quiz App Admin</Typography>
         <Typography variant="body1">Manage exams, questions, vouchers and view student results from here.</Typography>
       </div>
 

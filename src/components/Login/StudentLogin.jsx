@@ -35,7 +35,7 @@ const StudentLogin = () => {
         <Card className="login-card">
           <div className="login-header">
             <SchoolIcon sx={{ fontSize: 48, color: "#fff", mb: 1 }} />
-            <Typography variant="h4" sx={{ color: "#fff", fontWeight: 700 }}>QuizME</Typography>
+            <Typography variant="h4" sx={{ color: "#fff", fontWeight: 700 }}>Quiz App</Typography>
             <Typography variant="subtitle1" sx={{ color: "rgba(255,255,255,0.85)" }}>Student Login</Typography>
           </div>
           <CardContent className="login-body">
@@ -57,7 +57,7 @@ const StudentLogin = () => {
               </Box>
             </form>
             <Box sx={{ textAlign: "center", mt: 2 }}>
-              <Link to="/register" style={{ color: "#7c4dff", textDecoration: "none", fontWeight: 600 }}>I am New Student</Link>
+              <Link to="/register" style={{ color: "#7c4dff", textDecoration: "none", fontWeight: 600 }}>New user register here</Link>
             </Box>
             <Box sx={{ textAlign: "center", mt: 1 }}>
               <Link to="/admin/login" style={{ color: "#e65100", textDecoration: "none", fontSize: "0.875rem" }}>Admin Login</Link>

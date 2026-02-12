@@ -37,7 +37,7 @@ const AdminLogin = () => {
         <Card className="login-card">
           <div className="admin-login-header">
             <AdminPanelSettingsIcon sx={{ fontSize: 48, color: "#fff", mb: 1 }} />
-            <Typography variant="h4" sx={{ color: "#fff", fontWeight: 700 }}>QuizME</Typography>
+            <Typography variant="h4" sx={{ color: "#fff", fontWeight: 700 }}>Quiz App</Typography>
             <Typography variant="subtitle1" sx={{ color: "rgba(255,255,255,0.85)" }}>Admin Login</Typography>
           </div>
           <CardContent className="login-body">
@@ -62,7 +62,7 @@ const AdminLogin = () => {
                   sx={{ py: 1.5, fontWeight: 600, borderColor: "#e65100", color: "#e65100" }}>Cancel</Button>
               </Box>
             </form>
-            <Typography variant="body2" sx={{ textAlign: "center", mt: 2, color: "#999" }}>Admin Panel Access Only</Typography>
+            <Typography variant="body2" sx={{ textAlign: "center", mt: 2, color: "#999" }}>Admin Panel Access</Typography>
           </CardContent>
         </Card>
       </Container>
