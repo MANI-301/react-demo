@@ -1,5 +1,8 @@
 [
-  { "id": 1, "code": "QUIZ2024", "examId": 1, "active": true },
-  { "id": 2, "code": "TEST001", "examId": 2, "active": true },
-  { "id": 3, "code": "DEMO999", "examId": 1, "active": false }
+  { "id": 1, "code": "JAVA2024", "examId": 1, "active": true },
+  { "id": 2, "code": "PYTHON01", "examId": 2, "active": true },
+  { "id": 3, "code": "JS2024", "examId": 3, "active": true },
+  { "id": 4, "code": "REACT01", "examId": 4, "active": true },
+  { "id": 5, "code": "SQL2024", "examId": 5, "active": true },
+  { "id": 6, "code": "DEMO999", "examId": 1, "active": false }
 ]

@@ -4,167 +4,152 @@ import { getQuestionsByExam, getExams, addResult } from "../../services/api.js";
 import {
   Container, Card, CardContent, Typography, Box, Button, RadioGroup,
   FormControlLabel, Radio, Dialog, DialogTitle, DialogContent, DialogActions,
-  Divider
+  Divider, LinearProgress
 } from "@mui/material";
-import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import SendIcon from "@mui/icons-material/Send";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+import "../../styles/quiz.css";
 
 const QuizPage = () => {
-  const { examId } = useParams();
-  const navigate = useNavigate();
-  const [questions, setQuestions] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [answers, setAnswers] = useState({});
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [examName, setExamName] = useState("");
+  var params = useParams();
+  var examId = params.examId;
+  var navigate = useNavigate();
+  var [questions, setQuestions] = useState([]);
+  var [currentIndex, setCurrentIndex] = useState(0);
+  var [answers, setAnswers] = useState({});
+  var [showConfirm, setShowConfirm] = useState(false);
+  var [examName, setExamName] = useState("");
+  var currentUser = JSON.parse(sessionStorage.getItem("currentUser") || "{}");
 
-  const currentUser = JSON.parse(sessionStorage.getItem("currentUser") || "{}");
-
-  useEffect(() => {
-    const eid = parseInt(examId || "0");
-    const qs = getQuestionsByExam(eid);
+  useEffect(function() {
+    var eid = parseInt(examId || "0");
+    var qs = getQuestionsByExam(eid);
     setQuestions(qs);
-    const exams = getExams();
-    const exam = exams.find((e) => e.id === eid);
+    var exams = getExams();
+    var exam = exams.find(function(e) { return e.id === eid; });
     if (exam) setExamName(exam.name);
   }, [examId]);
 
-  const handleAnswer = (questionId, option) => {
-    setAnswers({ ...answers, [questionId]: option });
+  var handleAnswer = function(questionId, option) {
+    setAnswers(Object.assign({}, answers, { [questionId]: option }));
   };
 
-  const handleSubmit = () => {
-    let score = 0;
-    const details = [];
-    questions.forEach((q) => {
-      const userAnswer = answers[q.id] || "";
-      const optionMap = { A: q.optionA, B: q.optionB, C: q.optionC, D: q.optionD };
-      const isCorrect = userAnswer === q.correctOption;
+  var handleSubmit = function() {
+    var score = 0;
+    var details = [];
+    questions.forEach(function(q) {
+      var userAnswer = answers[q.id] || "";
+      var optionMap = { A: q.optionA, B: q.optionB, C: q.optionC, D: q.optionD };
+      var isCorrect = userAnswer === q.correctOption;
       if (isCorrect) score++;
       details.push({
-        questionId: q.id,
-        question: q.question,
-        correctOption: q.correctOption,
-        correctAnswer: optionMap[q.correctOption],
-        userOption: userAnswer,
-        userAnswer: optionMap[userAnswer] || "Not Answered",
-        isCorrect
+        questionId: q.id, question: q.question,
+        correctOption: q.correctOption, correctAnswer: optionMap[q.correctOption],
+        userOption: userAnswer, userAnswer: optionMap[userAnswer] || "Not Answered",
+        isCorrect: isCorrect
       });
     });
-
-    const result = {
+    var result = {
       studentName: currentUser.fullName || "Unknown",
       studentEmail: currentUser.email || "",
-      examId: parseInt(examId || "0"),
-      examName,
-      totalMarks: questions.length * 2,
-      obtainedMarks: score * 2,
-      score,
-      totalQuestions: questions.length,
+      examId: parseInt(examId || "0"), examName: examName,
+      totalMarks: questions.length, obtainedMarks: score,
+      score: score, totalQuestions: questions.length,
       status: score >= questions.length / 2 ? "Pass" : "Fail",
-      details,
-      date: new Date().toISOString()
+      details: details, date: new Date().toISOString()
     };
     addResult(result);
-    navigate("/result", { state: { result } });
+    navigate("/result", { state: { result: result } });
   };
 
   if (questions.length === 0) {
     return (
-      <Box sx={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#e0e0e0" }}>
-        <Typography variant="h5">No questions found for this exam.</Typography>
+      <Box sx={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#ede7f6" }}>
+        <Typography variant="h5" sx={{ color: "#311b92" }}>No questions found for this exam.</Typography>
       </Box>
     );
   }
 
-  const q = questions[currentIndex];
+  var q = questions[currentIndex];
+  var progress = ((currentIndex + 1) / questions.length) * 100;
 
   return (
-    <Box sx={{ minHeight: "100vh", background: "#bdbdbd", py: 3 }}>
+    <div className="quiz-wrapper">
       <Container maxWidth="md">
-        <Card sx={{ borderRadius: 3, boxShadow: "0 4px 20px rgba(0,0,0,0.1)", overflow: "visible" }}>
-          <Box sx={{ background: "#f5f5f5", p: 3, borderRadius: "12px 12px 0 0" }}>
-            <Typography variant="h5" sx={{ textAlign: "center", color: "#00897b", fontWeight: 700 }}>
-              QuizME
-            </Typography>
-            <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 1 }}>
-              <Button variant="contained" onClick={() => setShowConfirm(true)} sx={{
-                background: "#1565c0", fontWeight: 600,
-                "&:hover": { background: "#0d47a1" }
-              }}>Submit</Button>
+        <Card className="quiz-card">
+          <div className="quiz-header">
+            <Box>
+              <Typography variant="h5" sx={{ color: "#fff", fontWeight: 700 }}>{examName}</Typography>
+              <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.8)" }}>
+                Question {currentIndex + 1} of {questions.length}
+              </Typography>
             </Box>
-          </Box>
+            <Button variant="contained" startIcon={<SendIcon />} onClick={function() { setShowConfirm(true); }}
+              sx={{ background: "linear-gradient(135deg, #00c853, #00b248)", fontWeight: 600,
+                "&:hover": { background: "linear-gradient(135deg, #00b248, #009624)" } }}>
+              Submit
+            </Button>
+          </div>
 
-          <CardContent sx={{ p: 4, background: "#f5f5f5" }}>
-            <Box sx={{
-              border: "1px solid #ccc",
-              borderRadius: 2, p: 3, position: "relative", background: "#fafafa"
-            }}>
-              <Typography variant="subtitle2" sx={{
-                position: "absolute", top: -12, left: 16,
-                background: "#fafafa", px: 1, fontWeight: 700, color: "#333"
-              }}>
-                QUESTION-{currentIndex + 1}
-              </Typography>
-              <Typography variant="h6" sx={{ fontWeight: 600, mb: 3, mt: 1 }}>
-                {q.question}
-              </Typography>
-              <RadioGroup
-                value={answers[q.id] || ""}
-                onChange={(e) => handleAnswer(q.id, e.target.value)}
-              >
-                {["A", "B", "C", "D"].map((opt) => {
-                  const text = q["option" + opt];
+          <LinearProgress variant="determinate" value={progress}
+            sx={{ height: 4, "& .MuiLinearProgress-bar": { background: "linear-gradient(90deg, #7c4dff, #651fff)" } }} />
+
+          <CardContent sx={{ p: 4 }}>
+            <div className="question-box">
+              <span className="question-label">QUESTION {currentIndex + 1}</span>
+              <Typography variant="h6" sx={{ fontWeight: 600, mb: 3, mt: 1 }}>{q.question}</Typography>
+              <RadioGroup value={answers[q.id] || ""} onChange={function(e) { handleAnswer(q.id, e.target.value); }}>
+                {["A", "B", "C", "D"].map(function(opt) {
+                  var text = q["option" + opt];
                   if (!text) return null;
                   return (
-                    <FormControlLabel
-                      key={opt}
-                      value={opt}
-                      control={<Radio sx={{ color: "#1565c0", "&.Mui-checked": { color: "#1565c0" } }} />}
-                      label={text}
-                      sx={{ mb: 1 }}
+                    <FormControlLabel key={opt} value={opt}
+                      control={<Radio sx={{ color: "#7c4dff", "&.Mui-checked": { color: "#7c4dff" } }} />}
+                      label={<Typography>{opt}. {text}</Typography>}
+                      sx={{ mb: 1, border: "1px solid", borderColor: answers[q.id] === opt ? "#7c4dff" : "#e0e0e0",
+                        borderRadius: 2, px: 2, py: 0.5, mx: 0,
+                        background: answers[q.id] === opt ? "rgba(124,77,255,0.06)" : "transparent",
+                        transition: "all 0.2s ease", "&:hover": { borderColor: "#7c4dff", background: "rgba(124,77,255,0.03)" } }}
                     />
                   );
                 })}
               </RadioGroup>
-            </Box>
+            </div>
           </CardContent>
 
           <Box sx={{ display: "flex", justifyContent: "center", gap: 2, pb: 3 }}>
-            <Button
-              variant="contained"
-              startIcon={<NavigateBeforeIcon />}
-              disabled={currentIndex === 0}
-              onClick={() => setCurrentIndex(currentIndex - 1)}
-              sx={{ background: "#1565c0", "&:hover": { background: "#0d47a1" } }}
-            >Prev</Button>
-            <Button
-              variant="contained"
-              endIcon={<NavigateNextIcon />}
-              disabled={currentIndex === questions.length - 1}
-              onClick={() => setCurrentIndex(currentIndex + 1)}
-              sx={{ background: "#1565c0", "&:hover": { background: "#0d47a1" } }}
-            >Next</Button>
+            <Button variant="contained" startIcon={<ArrowBackIosNewIcon />} disabled={currentIndex === 0}
+              onClick={function() { setCurrentIndex(currentIndex - 1); }}
+              sx={{ background: "linear-gradient(135deg, #7c4dff, #651fff)", "&:hover": { background: "linear-gradient(135deg, #651fff, #6200ea)" } }}>
+              Prev
+            </Button>
+            <Button variant="contained" endIcon={<ArrowForwardIosIcon />} disabled={currentIndex === questions.length - 1}
+              onClick={function() { setCurrentIndex(currentIndex + 1); }}
+              sx={{ background: "linear-gradient(135deg, #7c4dff, #651fff)", "&:hover": { background: "linear-gradient(135deg, #651fff, #6200ea)" } }}>
+              Next
+            </Button>
           </Box>
         </Card>
       </Container>
 
-      <Dialog open={showConfirm} onClose={() => setShowConfirm(false)}>
-        <DialogTitle>QuizME</DialogTitle>
+      <Dialog open={showConfirm} onClose={function() { setShowConfirm(false); }} PaperProps={{ sx: { borderRadius: 3 } }}>
+        <DialogTitle sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <WarningAmberIcon sx={{ color: "#ff6d00" }} /> Confirm Submission
+        </DialogTitle>
         <Divider />
         <DialogContent>
-          <Typography>Are you sure to submit your Quiz?</Typography>
+          <Typography>Are you sure you want to submit your quiz? You cannot change answers after submission.</Typography>
         </DialogContent>
-        <DialogActions>
-          <Button variant="contained" onClick={handleSubmit} sx={{ background: "#1565c0" }}>
-            ✓ Yes
-          </Button>
-          <Button variant="outlined" onClick={() => setShowConfirm(false)}>
-            ✗ No
-          </Button>
+        <DialogActions sx={{ p: 2 }}>
+          <Button variant="contained" onClick={handleSubmit}
+            sx={{ background: "linear-gradient(135deg, #7c4dff, #651fff)" }}>Yes, Submit</Button>
+          <Button variant="outlined" onClick={function() { setShowConfirm(false); }}
+            sx={{ borderColor: "#7c4dff", color: "#7c4dff" }}>Cancel</Button>
         </DialogActions>
       </Dialog>
-    </Box>
+    </div>
   );
 };
 
