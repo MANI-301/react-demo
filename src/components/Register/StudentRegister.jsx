@@ -5,6 +5,22 @@ import {
   Container, Card, CardContent, TextField, Button, Typography, Box, Alert,
   RadioGroup, FormControlLabel, Radio, FormLabel, FormControl
 } from "@mui/material";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import "../../styles/register.css";
+
+const validatePassword = (pwd) => {
+  if (pwd.length < 6) return "Password must be at least 6 characters";
+  if (!/[A-Z]/.test(pwd)) return "Password must contain an uppercase letter";
+  if (!/[a-z]/.test(pwd)) return "Password must contain a lowercase letter";
+  if (!/[0-9]/.test(pwd)) return "Password must contain a number";
+  if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(pwd)) return "Password must contain a special symbol";
+  return "";
+};
+
+const validateContact = (contact) => {
+  if (contact && !/^\d{10}$/.test(contact)) return "Contact must be exactly 10 digits";
+  return "";
+};
 
 const StudentRegister = () => {
   const [form, setForm] = useState({
@@ -23,80 +39,69 @@ const StudentRegister = () => {
     setError("");
     setSuccess("");
     if (!form.fullName || !form.email || !form.password || !form.confirmPassword) {
-      setError("Please fill in all required fields");
-      return;
+      setError("Please fill in all required fields"); return;
     }
-    if (form.password !== form.confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
-    const users = getUsers();
-    if (users.find((u) => u.email === form.email)) {
-      setError("Email already registered");
-      return;
+    var pwdError = validatePassword(form.password);
+    if (pwdError) { setError(pwdError); return; }
+    if (form.password !== form.confirmPassword) { setError("Passwords do not match"); return; }
+    var contactError = validateContact(form.contact);
+    if (contactError) { setError(contactError); return; }
+    var users = getUsers();
+    if (users.find(function(u) { return u.email === form.email; })) {
+      setError("Email already registered"); return;
     }
     addUser({
-      fullName: form.fullName,
-      email: form.email,
-      contact: form.contact,
-      gender: form.gender,
-      password: form.password
+      fullName: form.fullName, email: form.email, contact: form.contact,
+      gender: form.gender, password: form.password
     });
     setSuccess("Registration successful! Redirecting to login...");
-    setTimeout(() => navigate("/"), 1500);
-  };
-
-  const handleCancel = () => {
-    navigate("/");
+    setTimeout(function() { navigate("/"); }, 1500);
   };
 
   return (
-    <Box sx={{
-      minHeight: "100vh",
-      background: "linear-gradient(135deg, #1565c0 0%, #0d47a1 50%, #1a237e 100%)",
-      display: "flex", alignItems: "center", justifyContent: "center", p: 2
-    }}>
+    <div className="register-wrapper">
       <Container maxWidth="sm">
-        <Card sx={{ borderRadius: 3, boxShadow: "0 8px 32px rgba(0,0,0,0.2)" }}>
-          <Box sx={{
-            background: "linear-gradient(135deg, #00897b, #00695c)",
-            p: 3, textAlign: "center", borderRadius: "12px 12px 0 0"
-          }}>
+        <Card className="register-card">
+          <div className="register-header">
+            <PersonAddIcon sx={{ fontSize: 48, color: "#fff", mb: 1 }} />
             <Typography variant="h4" sx={{ color: "#fff", fontWeight: 700 }}>QuizME</Typography>
             <Typography variant="subtitle1" sx={{ color: "rgba(255,255,255,0.85)" }}>Student Registration</Typography>
-          </Box>
-          <CardContent sx={{ p: 4 }}>
-            {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
-            {success && <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>}
+          </div>
+          <CardContent className="register-body">
+            {error && <Alert severity="error" sx={{ mb: 2, borderRadius: 2 }}>{error}</Alert>}
+            {success && <Alert severity="success" sx={{ mb: 2, borderRadius: 2 }}>{success}</Alert>}
             <form onSubmit={handleSubmit}>
               <TextField fullWidth label="Full Name" name="fullName" value={form.fullName} onChange={handleChange} sx={{ mb: 2 }} required />
               <TextField fullWidth label="Email ID" name="email" type="email" value={form.email} onChange={handleChange} sx={{ mb: 2 }} required />
-              <TextField fullWidth label="Contact Number" name="contact" value={form.contact} onChange={handleChange} sx={{ mb: 2 }} />
+              <TextField fullWidth label="Contact Number" name="contact" value={form.contact} onChange={handleChange} sx={{ mb: 2 }}
+                inputProps={{ maxLength: 10 }} helperText="Enter 10-digit mobile number" />
               <FormControl sx={{ mb: 2 }}>
                 <FormLabel>Gender</FormLabel>
                 <RadioGroup row name="gender" value={form.gender} onChange={handleChange}>
-                  <FormControlLabel value="Male" control={<Radio />} label="Male" />
-                  <FormControlLabel value="Female" control={<Radio />} label="Female" />
-                  <FormControlLabel value="Other" control={<Radio />} label="Other" />
+                  <FormControlLabel value="Male" control={<Radio sx={{ color: "#7c4dff", "&.Mui-checked": { color: "#7c4dff" } }} />} label="Male" />
+                  <FormControlLabel value="Female" control={<Radio sx={{ color: "#7c4dff", "&.Mui-checked": { color: "#7c4dff" } }} />} label="Female" />
+                  <FormControlLabel value="Other" control={<Radio sx={{ color: "#7c4dff", "&.Mui-checked": { color: "#7c4dff" } }} />} label="Other" />
                 </RadioGroup>
               </FormControl>
-              <TextField fullWidth label="Password" name="password" type="password" value={form.password} onChange={handleChange} sx={{ mb: 2 }} required />
-              <TextField fullWidth label="Confirm Password" name="confirmPassword" type="password" value={form.confirmPassword} onChange={handleChange} sx={{ mb: 3 }} required />
+              <TextField fullWidth label="Password" name="password" type="password" value={form.password} onChange={handleChange} sx={{ mb: 1 }} required
+                helperText="Min 6 chars: uppercase, lowercase, number, symbol" />
+              <TextField fullWidth label="Confirm Password" name="confirmPassword" type="password" value={form.confirmPassword} onChange={handleChange} sx={{ mb: 3, mt: 1 }} required />
               <Box sx={{ display: "flex", gap: 2 }}>
                 <Button type="submit" variant="contained" fullWidth sx={{
-                  py: 1.5, background: "linear-gradient(135deg, #43a047, #2e7d32)", fontWeight: 600,
-                  "&:hover": { background: "linear-gradient(135deg, #388e3c, #1b5e20)" }
+                  py: 1.5, background: "linear-gradient(135deg, #7c4dff, #651fff)", fontWeight: 600,
+                  "&:hover": { background: "linear-gradient(135deg, #651fff, #6200ea)" }
                 }}>Submit</Button>
-                <Button variant="outlined" fullWidth onClick={handleCancel} sx={{ py: 1.5, fontWeight: 600 }}>Cancel</Button>
+                <Button variant="outlined" fullWidth onClick={function() { navigate("/"); }}
+                  sx={{ py: 1.5, fontWeight: 600, borderColor: "#7c4dff", color: "#7c4dff" }}>Cancel</Button>
               </Box>
             </form>
             <Box sx={{ textAlign: "center", mt: 2 }}>
-              <Link to="/" style={{ color: "#1565c0", textDecoration: "none" }}>Already registered? Login here</Link>
+              <Link to="/" style={{ color: "#7c4dff", textDecoration: "none", fontWeight: 600 }}>Already registered? Login here</Link>
             </Box>
           </CardContent>
         </Card>
       </Container>
-    </Box>
+    </div>
   );
 };
 

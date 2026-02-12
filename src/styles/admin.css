@@ -1,0 +1,123 @@
+.admin-sidebar-header {
+  padding: 20px 16px;
+  background: linear-gradient(135deg, #1a237e, #311b92);
+  color: #fff;
+}
+
+.admin-sidebar-header h6 {
+  font-weight: 700;
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.admin-sidebar-header p {
+  margin: 4px 0 0;
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.admin-appbar {
+  background: linear-gradient(135deg, #1a237e, #311b92);
+}
+
+.admin-content {
+  background: #f4f6f9;
+  min-height: 100vh;
+}
+
+.stat-card {
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.stat-card-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dashboard-welcome {
+  background: linear-gradient(135deg, #7c4dff, #651fff);
+  border-radius: 16px;
+  padding: 32px;
+  color: #fff;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 20px rgba(124, 77, 255, 0.3);
+}
+
+.dashboard-welcome h4 {
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+.dashboard-welcome p {
+  opacity: 0.9;
+  margin: 0;
+}
+
+.admin-table-header {
+  background: linear-gradient(135deg, #ede7f6, #e8eaf6);
+}
+
+.admin-table-header th {
+  font-weight: 700;
+  color: #311b92;
+}
+
+.management-title {
+  font-weight: 700;
+  color: #1a237e;
+}
+
+.btn-add {
+  background: linear-gradient(135deg, #7c4dff, #651fff);
+  color: #fff;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-add:hover {
+  background: linear-gradient(135deg, #651fff, #6200ea);
+  transform: translateY(-1px);
+}
+
+.recent-activity {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.recent-activity h6 {
+  font-weight: 700;
+  color: #1a237e;
+  margin-bottom: 16px;
+}
+
+.info-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  height: 100%;
+}
+
+.info-card h6 {
+  font-weight: 700;
+  color: #1a237e;
+  margin-bottom: 12px;
+}

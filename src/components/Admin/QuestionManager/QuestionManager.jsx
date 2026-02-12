@@ -2,110 +2,76 @@ import { useState, useEffect } from "react";
 import {
   Box, Typography, Button, Table, TableBody, TableCell, TableContainer, TableHead,
   TableRow, Paper, Dialog, DialogTitle, DialogContent, DialogActions, TextField,
-  IconButton, Select, MenuItem, FormControl, InputLabel, Tabs, Tab
+  IconButton, Select, MenuItem, FormControl, InputLabel
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
-import AddIcon from "@mui/icons-material/Add";
-import CheckIcon from "@mui/icons-material/Check";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import {
-  getExams, addExam, updateExam, deleteExam,
-  getQuestionsByExam, addQuestion, updateQuestion, deleteQuestion
+  getExams, getQuestionsByExam, addQuestion, updateQuestion, deleteQuestion
 } from "../../../services/api.js";
+import "../../../styles/admin.css";
 
-const QuestionManager = () => {
-  const [exams, setExams] = useState([]);
-  const [selectedExam, setSelectedExam] = useState(null);
-  const [questions, setQuestions] = useState([]);
-  const [examOpen, setExamOpen] = useState(false);
-  const [qOpen, setQOpen] = useState(false);
-  const [examForm, setExamForm] = useState({ name: "" });
-  const [editExamId, setEditExamId] = useState(null);
-  const [qForm, setQForm] = useState({ question: "", optionA: "", optionB: "", optionC: "", optionD: "", correctOption: "A" });
-  const [editQId, setEditQId] = useState(null);
-  const [tab, setTab] = useState(0);
+var QuestionManager = function() {
+  var [exams, setExams] = useState([]);
+  var [selectedExamId, setSelectedExamId] = useState("");
+  var [questions, setQuestions] = useState([]);
+  var [open, setOpen] = useState(false);
+  var [deleteOpen, setDeleteOpen] = useState(false);
+  var [deleteId, setDeleteId] = useState(null);
+  var [editId, setEditId] = useState(null);
+  var [form, setForm] = useState({ question: "", optionA: "", optionB: "", optionC: "", optionD: "", correctOption: "A" });
 
-  const loadExams = () => setExams(getExams());
-  const loadQuestions = (eid) => setQuestions(getQuestionsByExam(eid));
+  useEffect(function() { setExams(getExams()); }, []);
+  useEffect(function() {
+    if (selectedExamId) setQuestions(getQuestionsByExam(parseInt(selectedExamId)));
+    else setQuestions([]);
+  }, [selectedExamId]);
 
-  useEffect(() => { loadExams(); }, []);
-  useEffect(() => { if (selectedExam) loadQuestions(selectedExam.id); }, [selectedExam]);
+  var reload = function() { if (selectedExamId) setQuestions(getQuestionsByExam(parseInt(selectedExamId))); };
 
-  const openExamDialog = (e) => {
-    if (e) { setEditExamId(e.id); setExamForm({ name: e.name }); }
-    else { setEditExamId(null); setExamForm({ name: "" }); }
-    setExamOpen(true);
+  var handleOpen = function(q) {
+    if (q) { setEditId(q.id); setForm({ question: q.question, optionA: q.optionA, optionB: q.optionB, optionC: q.optionC, optionD: q.optionD, correctOption: q.correctOption }); }
+    else { setEditId(null); setForm({ question: "", optionA: "", optionB: "", optionC: "", optionD: "", correctOption: "A" }); }
+    setOpen(true);
   };
-  const saveExam = () => {
-    if (!examForm.name) return;
-    if (editExamId) updateExam(editExamId, examForm);
-    else addExam(examForm);
-    setExamOpen(false); loadExams();
-  };
-  const removeExam = (id) => { deleteExam(id); loadExams(); if (selectedExam?.id === id) { setSelectedExam(null); setQuestions([]); } };
 
-  const openQDialog = (q) => {
-    if (q) { setEditQId(q.id); setQForm({ question: q.question, optionA: q.optionA, optionB: q.optionB, optionC: q.optionC, optionD: q.optionD, correctOption: q.correctOption }); }
-    else { setEditQId(null); setQForm({ question: "", optionA: "", optionB: "", optionC: "", optionD: "", correctOption: "A" }); }
-    setQOpen(true);
+  var handleSave = function() {
+    if (!form.question || !selectedExamId) return;
+    if (editId) updateQuestion(editId, form);
+    else addQuestion(Object.assign({}, form, { examId: parseInt(selectedExamId) }));
+    setOpen(false); reload();
   };
-  const saveQ = () => {
-    if (!qForm.question || !selectedExam) return;
-    if (editQId) updateQuestion(editQId, qForm);
-    else addQuestion({ ...qForm, examId: selectedExam.id });
-    setQOpen(false); loadQuestions(selectedExam.id);
-  };
-  const removeQ = (id) => { deleteQuestion(id); if (selectedExam) loadQuestions(selectedExam.id); };
+
+  var confirmDelete = function(id) { setDeleteId(id); setDeleteOpen(true); };
+  var handleDelete = function() { deleteQuestion(deleteId); setDeleteOpen(false); setDeleteId(null); reload(); };
+
+  var selectedExam = exams.find(function(e) { return e.id === parseInt(selectedExamId); });
 
   return (
     <Box>
-      <Typography variant="h5" sx={{ fontWeight: 700, mb: 3 }}>Exam & Question Management</Typography>
-      <Tabs value={tab} onChange={(_, v) => setTab(v)} sx={{ mb: 3 }}>
-        <Tab label="Exams" />
-        <Tab label="Questions" disabled={!selectedExam} />
-      </Tabs>
+      <Typography variant="h5" className="management-title" sx={{ mb: 3 }}>Question Management</Typography>
 
-      {tab === 0 && (
-        <Box>
-          <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
-            <Button variant="contained" startIcon={<AddIcon />} onClick={() => openExamDialog()} sx={{ background: "#1565c0" }}>Add Exam</Button>
-          </Box>
-          <TableContainer component={Paper} sx={{ borderRadius: 2 }}>
-            <Table>
-              <TableHead sx={{ background: "#e3f2fd" }}>
-                <TableRow>
-                  <TableCell sx={{ fontWeight: 700 }}>Sr.No</TableCell>
-                  <TableCell sx={{ fontWeight: 700 }}>Exam Name</TableCell>
-                  <TableCell sx={{ fontWeight: 700 }}>Actions</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {exams.map((e, i) => (
-                  <TableRow key={e.id} hover>
-                    <TableCell>{i + 1}</TableCell>
-                    <TableCell>{e.name}</TableCell>
-                    <TableCell>
-                      <IconButton color="success" onClick={() => { setSelectedExam(e); setTab(1); }}><CheckIcon /></IconButton>
-                      <IconButton color="primary" onClick={() => openExamDialog(e)}><EditIcon /></IconButton>
-                      <IconButton color="error" onClick={() => removeExam(e.id)}><DeleteIcon /></IconButton>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Box>
-      )}
+      <FormControl sx={{ mb: 3, minWidth: 300 }}>
+        <InputLabel>Select Exam</InputLabel>
+        <Select value={selectedExamId} label="Select Exam" onChange={function(e) { setSelectedExamId(e.target.value); }}>
+          {exams.map(function(e) {
+            return <MenuItem key={e.id} value={e.id.toString()}>{e.name}</MenuItem>;
+          })}
+        </Select>
+      </FormControl>
 
-      {tab === 1 && selectedExam && (
+      {selectedExam && (
         <Box>
-          <Typography variant="h6" sx={{ mb: 2 }}>Questions for: {selectedExam.name}</Typography>
-          <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
-            <Button variant="contained" startIcon={<AddIcon />} onClick={() => openQDialog()} sx={{ background: "#00897b" }}>Add Question</Button>
+          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
+            <Typography variant="h6" sx={{ color: "#311b92", fontWeight: 600 }}>Questions for: {selectedExam.name}</Typography>
+            <Button variant="contained" startIcon={<AddCircleIcon />} onClick={function() { handleOpen(); }}
+              sx={{ background: "linear-gradient(135deg, #7c4dff, #651fff)" }}>Add Question</Button>
           </Box>
-          <TableContainer component={Paper} sx={{ borderRadius: 2 }}>
+          <TableContainer component={Paper} sx={{ borderRadius: 3, boxShadow: "0 2px 12px rgba(0,0,0,0.08)" }}>
             <Table>
-              <TableHead sx={{ background: "#e0f2f1" }}>
+              <TableHead className="admin-table-header">
                 <TableRow>
                   <TableCell sx={{ fontWeight: 700 }}>Sr.No</TableCell>
                   <TableCell sx={{ fontWeight: 700 }}>Question</TableCell>
@@ -114,48 +80,39 @@ const QuestionManager = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {questions.map((q, i) => (
-                  <TableRow key={q.id} hover>
-                    <TableCell>{i + 1}</TableCell>
-                    <TableCell>{q.question}</TableCell>
-                    <TableCell>{q.correctOption}</TableCell>
-                    <TableCell>
-                      <IconButton color="primary" onClick={() => openQDialog(q)}><EditIcon /></IconButton>
-                      <IconButton color="error" onClick={() => removeQ(q.id)}><DeleteIcon /></IconButton>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {questions.map(function(q, i) {
+                  return (
+                    <TableRow key={q.id} hover>
+                      <TableCell>{i + 1}</TableCell>
+                      <TableCell sx={{ maxWidth: 400 }}>{q.question}</TableCell>
+                      <TableCell sx={{ fontWeight: 600, color: "#7c4dff" }}>{q.correctOption}</TableCell>
+                      <TableCell>
+                        <IconButton sx={{ color: "#7c4dff" }} onClick={function() { handleOpen(q); }}><EditIcon /></IconButton>
+                        <IconButton sx={{ color: "#c62828" }} onClick={function() { confirmDelete(q.id); }}><DeleteForeverIcon /></IconButton>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </TableContainer>
         </Box>
       )}
 
-      <Dialog open={examOpen} onClose={() => setExamOpen(false)} maxWidth="sm" fullWidth>
-        <DialogTitle>{editExamId ? "Edit Exam" : "Add Exam"}</DialogTitle>
+      <Dialog open={open} onClose={function() { setOpen(false); }} maxWidth="md" fullWidth PaperProps={{ sx: { borderRadius: 3 } }}>
+        <DialogTitle sx={{ fontWeight: 700, color: "#1a237e" }}>{editId ? "Edit Question" : "Add Question"}</DialogTitle>
         <DialogContent sx={{ pt: "16px !important" }}>
-          <TextField fullWidth label="Exam Name" value={examForm.name} onChange={(e) => setExamForm({ name: e.target.value })} />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setExamOpen(false)}>Cancel</Button>
-          <Button variant="contained" onClick={saveExam}>Submit</Button>
-        </DialogActions>
-      </Dialog>
-
-      <Dialog open={qOpen} onClose={() => setQOpen(false)} maxWidth="md" fullWidth>
-        <DialogTitle>{editQId ? "Edit Question" : "Add Question"}</DialogTitle>
-        <DialogContent sx={{ pt: "16px !important" }}>
-          <TextField fullWidth label="Exam Name" value={selectedExam?.name || ""} disabled sx={{ mb: 2 }} />
-          <TextField fullWidth label="Question" value={qForm.question} onChange={(e) => setQForm({ ...qForm, question: e.target.value })} sx={{ mb: 2 }} multiline />
+          <TextField fullWidth label="Exam Name" value={selectedExam ? selectedExam.name : ""} disabled sx={{ mb: 2 }} />
+          <TextField fullWidth label="Question" value={form.question} onChange={function(e) { setForm(Object.assign({}, form, { question: e.target.value })); }} sx={{ mb: 2 }} multiline rows={2} />
           <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, mb: 2 }}>
-            <Box sx={{ flex: "1 1 45%" }}><TextField fullWidth label="Option A" value={qForm.optionA} onChange={(e) => setQForm({ ...qForm, optionA: e.target.value })} /></Box>
-            <Box sx={{ flex: "1 1 45%" }}><TextField fullWidth label="Option B" value={qForm.optionB} onChange={(e) => setQForm({ ...qForm, optionB: e.target.value })} /></Box>
-            <Box sx={{ flex: "1 1 45%" }}><TextField fullWidth label="Option C" value={qForm.optionC} onChange={(e) => setQForm({ ...qForm, optionC: e.target.value })} /></Box>
-            <Box sx={{ flex: "1 1 45%" }}><TextField fullWidth label="Option D" value={qForm.optionD} onChange={(e) => setQForm({ ...qForm, optionD: e.target.value })} /></Box>
+            <Box sx={{ flex: "1 1 45%" }}><TextField fullWidth label="Option A" value={form.optionA} onChange={function(e) { setForm(Object.assign({}, form, { optionA: e.target.value })); }} /></Box>
+            <Box sx={{ flex: "1 1 45%" }}><TextField fullWidth label="Option B" value={form.optionB} onChange={function(e) { setForm(Object.assign({}, form, { optionB: e.target.value })); }} /></Box>
+            <Box sx={{ flex: "1 1 45%" }}><TextField fullWidth label="Option C" value={form.optionC} onChange={function(e) { setForm(Object.assign({}, form, { optionC: e.target.value })); }} /></Box>
+            <Box sx={{ flex: "1 1 45%" }}><TextField fullWidth label="Option D" value={form.optionD} onChange={function(e) { setForm(Object.assign({}, form, { optionD: e.target.value })); }} /></Box>
           </Box>
           <FormControl fullWidth>
             <InputLabel>Correct Option</InputLabel>
-            <Select value={qForm.correctOption} label="Correct Option" onChange={(e) => setQForm({ ...qForm, correctOption: e.target.value })}>
+            <Select value={form.correctOption} label="Correct Option" onChange={function(e) { setForm(Object.assign({}, form, { correctOption: e.target.value })); }}>
               <MenuItem value="A">A</MenuItem>
               <MenuItem value="B">B</MenuItem>
               <MenuItem value="C">C</MenuItem>
@@ -163,9 +120,20 @@ const QuestionManager = () => {
             </Select>
           </FormControl>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setQOpen(false)}>Cancel</Button>
-          <Button variant="contained" onClick={saveQ}>Submit</Button>
+        <DialogActions sx={{ p: 2 }}>
+          <Button onClick={function() { setOpen(false); }}>Cancel</Button>
+          <Button variant="contained" onClick={handleSave} sx={{ background: "#7c4dff" }}>Save</Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={deleteOpen} onClose={function() { setDeleteOpen(false); }} PaperProps={{ sx: { borderRadius: 3 } }}>
+        <DialogTitle sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <WarningAmberIcon sx={{ color: "#ff6d00" }} /> Confirm Delete
+        </DialogTitle>
+        <DialogContent><Typography>Are you sure you want to delete this question?</Typography></DialogContent>
+        <DialogActions sx={{ p: 2 }}>
+          <Button variant="contained" color="error" onClick={handleDelete}>Yes, Delete</Button>
+          <Button variant="outlined" onClick={function() { setDeleteOpen(false); }}>Cancel</Button>
         </DialogActions>
       </Dialog>
     </Box>

@@ -7,6 +7,8 @@ import {
 import InputAdornment from "@mui/material/InputAdornment";
 import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
+import SchoolIcon from "@mui/icons-material/School";
+import "../../styles/login.css";
 
 const StudentLogin = () => {
   const [email, setEmail] = useState("");
@@ -28,39 +30,34 @@ const StudentLogin = () => {
   };
 
   return (
-    <Box sx={{
-      minHeight: "100vh",
-      background: "linear-gradient(135deg, #1565c0 0%, #0d47a1 50%, #1a237e 100%)",
-      display: "flex", alignItems: "center", justifyContent: "center", p: 2
-    }}>
+    <div className="login-wrapper">
       <Container maxWidth="sm">
-        <Card sx={{ borderRadius: 3, boxShadow: "0 8px 32px rgba(0,0,0,0.2)" }}>
-          <Box sx={{
-            background: "linear-gradient(135deg, #00897b, #00695c)",
-            p: 3, textAlign: "center", borderRadius: "12px 12px 0 0"
-          }}>
+        <Card className="login-card">
+          <div className="login-header">
+            <SchoolIcon sx={{ fontSize: 48, color: "#fff", mb: 1 }} />
             <Typography variant="h4" sx={{ color: "#fff", fontWeight: 700 }}>QuizME</Typography>
             <Typography variant="subtitle1" sx={{ color: "rgba(255,255,255,0.85)" }}>Student Login</Typography>
-          </Box>
-          <CardContent sx={{ p: 4 }}>
-            {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+          </div>
+          <CardContent className="login-body">
+            {error && <Alert severity="error" sx={{ mb: 2, borderRadius: 2 }}>{error}</Alert>}
             <form onSubmit={handleLogin}>
               <TextField fullWidth label="Email ID" value={email} onChange={(e) => setEmail(e.target.value)} sx={{ mb: 3 }}
-                InputProps={{ startAdornment: <InputAdornment position="start"><EmailIcon color="primary" /></InputAdornment> }}
+                InputProps={{ startAdornment: <InputAdornment position="start"><EmailIcon sx={{ color: "#7c4dff" }} /></InputAdornment> }}
               />
               <TextField fullWidth label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} sx={{ mb: 3 }}
-                InputProps={{ startAdornment: <InputAdornment position="start"><LockIcon color="primary" /></InputAdornment> }}
+                InputProps={{ startAdornment: <InputAdornment position="start"><LockIcon sx={{ color: "#7c4dff" }} /></InputAdornment> }}
               />
               <Box sx={{ display: "flex", gap: 2 }}>
                 <Button type="submit" variant="contained" fullWidth sx={{
-                  py: 1.5, background: "linear-gradient(135deg, #43a047, #2e7d32)", fontWeight: 600,
-                  "&:hover": { background: "linear-gradient(135deg, #388e3c, #1b5e20)" }
+                  py: 1.5, background: "linear-gradient(135deg, #7c4dff, #651fff)", fontWeight: 600,
+                  "&:hover": { background: "linear-gradient(135deg, #651fff, #6200ea)" }
                 }}>Login</Button>
-                <Button variant="outlined" fullWidth onClick={() => { setEmail(""); setPassword(""); setError(""); }} sx={{ py: 1.5, fontWeight: 600 }}>Cancel</Button>
+                <Button variant="outlined" fullWidth onClick={() => { setEmail(""); setPassword(""); setError(""); }}
+                  sx={{ py: 1.5, fontWeight: 600, borderColor: "#7c4dff", color: "#7c4dff" }}>Cancel</Button>
               </Box>
             </form>
             <Box sx={{ textAlign: "center", mt: 2 }}>
-              <Link to="/register" style={{ color: "#1565c0", textDecoration: "none" }}>I am New Student</Link>
+              <Link to="/register" style={{ color: "#7c4dff", textDecoration: "none", fontWeight: 600 }}>I am New Student</Link>
             </Box>
             <Box sx={{ textAlign: "center", mt: 1 }}>
               <Link to="/admin/login" style={{ color: "#e65100", textDecoration: "none", fontSize: "0.875rem" }}>Admin Login</Link>
@@ -68,7 +65,7 @@ const StudentLogin = () => {
           </CardContent>
         </Card>
       </Container>
-    </Box>
+    </div>
   );
 };
 
