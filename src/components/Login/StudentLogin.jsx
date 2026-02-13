@@ -10,17 +10,17 @@ import LockIcon from "@mui/icons-material/Lock";
 import SchoolIcon from "@mui/icons-material/School";
 import "../../styles/login.css";
 
-const StudentLogin = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
+var StudentLogin = function () {
+  var [email, setEmail] = useState("");
+  var [password, setPassword] = useState("");
+  var [error, setError] = useState("");
+  var navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  var handleLogin = function (e) {
     e.preventDefault();
     setError("");
     if (!email || !password) { setError("Please fill in all fields"); return; }
-    const user = loginUser(email, password);
+    var user = loginUser(email, password);
     if (user && user.role === "student") {
       sessionStorage.setItem("currentUser", JSON.stringify(user));
       navigate("/voucher");
@@ -41,26 +41,26 @@ const StudentLogin = () => {
           <CardContent className="login-body">
             {error && <Alert severity="error" sx={{ mb: 2, borderRadius: 2 }}>{error}</Alert>}
             <form onSubmit={handleLogin}>
-              <TextField fullWidth label="Email ID" value={email} onChange={(e) => setEmail(e.target.value)} sx={{ mb: 3 }}
-                InputProps={{ startAdornment: <InputAdornment position="start"><EmailIcon sx={{ color: "#7c4dff" }} /></InputAdornment> }}
+              <TextField fullWidth label="Email ID" value={email} onChange={function (e) { setEmail(e.target.value); }} sx={{ mb: 3 }}
+                InputProps={{ startAdornment: <InputAdornment position="start"><EmailIcon sx={{ color: "#2ecc71" }} /></InputAdornment> }}
               />
-              <TextField fullWidth label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} sx={{ mb: 3 }}
-                InputProps={{ startAdornment: <InputAdornment position="start"><LockIcon sx={{ color: "#7c4dff" }} /></InputAdornment> }}
+              <TextField fullWidth label="Password" type="password" value={password} onChange={function (e) { setPassword(e.target.value); }} sx={{ mb: 3 }}
+                InputProps={{ startAdornment: <InputAdornment position="start"><LockIcon sx={{ color: "#2ecc71" }} /></InputAdornment> }}
               />
               <Box sx={{ display: "flex", gap: 2 }}>
                 <Button type="submit" variant="contained" fullWidth sx={{
-                  py: 1.5, background: "linear-gradient(135deg, #7c4dff, #651fff)", fontWeight: 600,
-                  "&:hover": { background: "linear-gradient(135deg, #651fff, #6200ea)" }
+                  py: 1.5, background: "linear-gradient(135deg, #1a6b3c, #2ecc71)", fontWeight: 600,
+                  "&:hover": { background: "linear-gradient(135deg, #2ecc71, #27ae60)" }
                 }}>Login</Button>
-                <Button variant="outlined" fullWidth onClick={() => { setEmail(""); setPassword(""); setError(""); }}
-                  sx={{ py: 1.5, fontWeight: 600, borderColor: "#7c4dff", color: "#7c4dff" }}>Cancel</Button>
+                <Button variant="outlined" fullWidth onClick={function () { setEmail(""); setPassword(""); setError(""); }}
+                  sx={{ py: 1.5, fontWeight: 600, borderColor: "#2ecc71", color: "#2ecc71" }}>Cancel</Button>
               </Box>
             </form>
             <Box sx={{ textAlign: "center", mt: 2 }}>
-              <Link to="/register" style={{ color: "#7c4dff", textDecoration: "none", fontWeight: 600 }}>New user register here</Link>
+              <Link to="/register" style={{ color: "#2ecc71", textDecoration: "none", fontWeight: 600 }}>New user register here</Link>
             </Box>
             <Box sx={{ textAlign: "center", mt: 1 }}>
-              <Link to="/admin/login" style={{ color: "#e65100", textDecoration: "none", fontSize: "0.875rem" }}>Admin Login</Link>
+              <Link to="/admin/login" style={{ color: "#daa520", textDecoration: "none", fontSize: "0.875rem" }}>Admin Login</Link>
             </Box>
           </CardContent>
         </Card>

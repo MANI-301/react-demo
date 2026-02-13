@@ -8,16 +8,16 @@ import {
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
 import "../../styles/voucher.css";
 
-const VoucherPage = () => {
-  const [voucherCode, setVoucherCode] = useState("");
-  const [examId, setExamId] = useState("");
-  const [exams, setExams] = useState([]);
-  const [voucherValid, setVoucherValid] = useState(false);
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
+var VoucherPage = function () {
+  var [voucherCode, setVoucherCode] = useState("");
+  var [examId, setExamId] = useState("");
+  var [exams, setExams] = useState([]);
+  var [voucherValid, setVoucherValid] = useState(false);
+  var [error, setError] = useState("");
+  var navigate = useNavigate();
   var currentUser = JSON.parse(sessionStorage.getItem("currentUser") || "{}");
 
-  var handleVoucherChange = function(e) {
+  var handleVoucherChange = function (e) {
     var code = e.target.value;
     setVoucherCode(code);
     setError("");
@@ -28,7 +28,7 @@ const VoucherPage = () => {
       if (voucher) {
         setVoucherValid(true);
         var allExams = getExams();
-        var linked = allExams.filter(function(ex) { return ex.id === voucher.examId; });
+        var linked = allExams.filter(function (ex) { return ex.id === voucher.examId; });
         setExams(linked.length > 0 ? linked : allExams);
         if (linked.length === 1) setExamId(linked[0].id.toString());
       } else {
@@ -37,7 +37,7 @@ const VoucherPage = () => {
     }
   };
 
-  var handleSubmit = function(e) {
+  var handleSubmit = function (e) {
     e.preventDefault();
     if (!voucherValid) { setError("Please enter a valid voucher code"); return; }
     if (!examId) { setError("Please select an exam"); return; }
@@ -50,7 +50,7 @@ const VoucherPage = () => {
         <Card className="voucher-card">
           <div className="voucher-header">
             <ConfirmationNumberIcon sx={{ fontSize: 48, color: "#fff", mb: 1 }} />
-            <Typography variant="h4" sx={{ color: "#fff", fontWeight: 700 }}>QuizME</Typography>
+            <Typography variant="h4" sx={{ color: "#fff", fontWeight: 700 }}>Quiz App</Typography>
             <Typography variant="subtitle1" sx={{ color: "rgba(255,255,255,0.85)" }}>
               Welcome, {currentUser.fullName || "Student"}
             </Typography>
@@ -59,11 +59,11 @@ const VoucherPage = () => {
             {error && <Alert severity="error" sx={{ mb: 2, borderRadius: 2 }}>{error}</Alert>}
             <form onSubmit={handleSubmit}>
               <TextField fullWidth label="Voucher Code" value={voucherCode} onChange={handleVoucherChange} sx={{ mb: 3 }}
-                helperText={voucherValid ? "✓ Voucher is valid" : ""} color={voucherValid ? "success" : "primary"} />
+                helperText={voucherValid ? "Voucher is valid" : ""} color={voucherValid ? "success" : "primary"} />
               <FormControl fullWidth sx={{ mb: 3 }} disabled={!voucherValid}>
                 <InputLabel>Select Exam</InputLabel>
-                <Select value={examId} label="Select Exam" onChange={function(e) { setExamId(e.target.value); }}>
-                  {exams.map(function(ex) {
+                <Select value={examId} label="Select Exam" onChange={function (e) { setExamId(e.target.value); }}>
+                  {exams.map(function (ex) {
                     return <MenuItem key={ex.id} value={ex.id.toString()}>{ex.name}</MenuItem>;
                   })}
                 </Select>
@@ -71,7 +71,7 @@ const VoucherPage = () => {
               <button type="submit" className="btn-start-exam">Start Exam</button>
             </form>
             <Box sx={{ textAlign: "center", mt: 2 }}>
-              <Button variant="text" sx={{ color: "#7c4dff" }} onClick={function() { sessionStorage.removeItem("currentUser"); navigate("/"); }}>
+              <Button variant="text" sx={{ color: "#2ecc71" }} onClick={function () { sessionStorage.removeItem("currentUser"); navigate("/"); }}>
                 Logout
               </Button>
             </Box>
