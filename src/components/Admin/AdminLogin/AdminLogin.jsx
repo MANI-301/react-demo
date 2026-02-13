@@ -11,14 +11,14 @@ import LockIcon from "@mui/icons-material/Lock";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import "../../../styles/login.css";
 
-const AdminLogin = () => {
+var AdminLogin = function () {
   var [email, setEmail] = useState("");
   var [password, setPassword] = useState("");
   var [role, setRole] = useState("admin");
   var [error, setError] = useState("");
   var navigate = useNavigate();
 
-  var handleLogin = function(e) {
+  var handleLogin = function (e) {
     e.preventDefault();
     setError("");
     if (!email || !password) { setError("Please fill in all fields"); return; }
@@ -43,26 +43,27 @@ const AdminLogin = () => {
           <CardContent className="login-body">
             {error && <Alert severity="error" sx={{ mb: 2, borderRadius: 2 }}>{error}</Alert>}
             <form onSubmit={handleLogin}>
-              <TextField fullWidth label="Admin Email" value={email} onChange={function(e) { setEmail(e.target.value); }} sx={{ mb: 3 }}
-                InputProps={{ startAdornment: <InputAdornment position="start"><EmailIcon sx={{ color: "#e65100" }} /></InputAdornment> }} />
-              <TextField fullWidth label="Password" type="password" value={password} onChange={function(e) { setPassword(e.target.value); }} sx={{ mb: 3 }}
-                InputProps={{ startAdornment: <InputAdornment position="start"><LockIcon sx={{ color: "#e65100" }} /></InputAdornment> }} />
+              <TextField fullWidth label="Admin Email" value={email} onChange={function (e) { setEmail(e.target.value); }} sx={{ mb: 3 }}
+                InputProps={{ startAdornment: <InputAdornment position="start"><EmailIcon sx={{ color: "#daa520" }} /></InputAdornment> }} />
+              <TextField fullWidth label="Password" type="password" value={password} onChange={function (e) { setPassword(e.target.value); }} sx={{ mb: 3 }}
+                InputProps={{ startAdornment: <InputAdornment position="start"><LockIcon sx={{ color: "#daa520" }} /></InputAdornment> }} />
               <FormControl fullWidth sx={{ mb: 3 }}>
-                <InputLabel>Role</InputLabel>
-                <Select value={role} label="Role" onChange={function(e) { setRole(e.target.value); }}>
+                <InputLabel sx={{ color: "#8fbc8f" }}>Role</InputLabel>
+                <Select value={role} label="Role" onChange={function (e) { setRole(e.target.value); }}
+                  sx={{ color: "#e0e0e0", "& .MuiOutlinedInput-notchedOutline": { borderColor: "rgba(46,204,113,0.3)" } }}>
                   <MenuItem value="admin">Admin</MenuItem>
                 </Select>
               </FormControl>
               <Box sx={{ display: "flex", gap: 2 }}>
                 <Button type="submit" variant="contained" fullWidth sx={{
-                  py: 1.5, background: "linear-gradient(135deg, #ff6d00, #e65100)", fontWeight: 600,
-                  "&:hover": { background: "linear-gradient(135deg, #e65100, #bf360c)" }
+                  py: 1.5, background: "linear-gradient(135deg, #b8860b, #daa520)", fontWeight: 600,
+                  "&:hover": { background: "linear-gradient(135deg, #daa520, #f0c040)" }
                 }}>Login</Button>
-                <Button variant="outlined" fullWidth onClick={function() { navigate("/"); }}
-                  sx={{ py: 1.5, fontWeight: 600, borderColor: "#e65100", color: "#e65100" }}>Cancel</Button>
+                <Button variant="outlined" fullWidth onClick={function () { navigate("/"); }}
+                  sx={{ py: 1.5, fontWeight: 600, borderColor: "#daa520", color: "#daa520" }}>Cancel</Button>
               </Box>
             </form>
-            <Typography variant="body2" sx={{ textAlign: "center", mt: 2, color: "#999" }}>Admin Panel Access</Typography>
+            <Typography variant="body2" sx={{ textAlign: "center", mt: 2, color: "#6b8f6b" }}>Admin Panel Access</Typography>
           </CardContent>
         </Card>
       </Container>

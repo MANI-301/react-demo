@@ -11,7 +11,7 @@ import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import { getExams, addExam, updateExam, deleteExam } from "../../../services/api.js";
 import "../../../styles/admin.css";
 
-var ExamManager = function() {
+var ExamManager = function () {
   var [exams, setExams] = useState([]);
   var [open, setOpen] = useState(false);
   var [deleteOpen, setDeleteOpen] = useState(false);
@@ -19,35 +19,35 @@ var ExamManager = function() {
   var [editId, setEditId] = useState(null);
   var [form, setForm] = useState({ name: "" });
 
-  var load = function() { setExams(getExams()); };
-  useEffect(function() { load(); }, []);
+  var load = function () { setExams(getExams()); };
+  useEffect(function () { load(); }, []);
 
-  var handleOpen = function(e) {
+  var handleOpen = function (e) {
     if (e) { setEditId(e.id); setForm({ name: e.name }); }
     else { setEditId(null); setForm({ name: "" }); }
     setOpen(true);
   };
 
-  var handleSave = function() {
+  var handleSave = function () {
     if (!form.name) return;
     if (editId) updateExam(editId, form);
     else addExam(form);
     setOpen(false); load();
   };
 
-  var confirmDelete = function(id) { setDeleteId(id); setDeleteOpen(true); };
-  var handleDelete = function() { deleteExam(deleteId); setDeleteOpen(false); setDeleteId(null); load(); };
+  var confirmDelete = function (id) { setDeleteId(id); setDeleteOpen(true); };
+  var handleDelete = function () { deleteExam(deleteId); setDeleteOpen(false); setDeleteId(null); load(); };
 
   return (
     <Box>
       <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3 }}>
         <Typography variant="h5" className="management-title">Exam Management</Typography>
-        <Button variant="contained" startIcon={<AddCircleIcon />} onClick={function() { handleOpen(); }}
-          sx={{ background: "linear-gradient(135deg, #7c4dff, #651fff)", "&:hover": { background: "#651fff" } }}>
+        <Button variant="contained" startIcon={<AddCircleIcon />} onClick={function () { handleOpen(); }}
+          sx={{ background: "linear-gradient(135deg, #1a6b3c, #2ecc71)", "&:hover": { background: "#27ae60" } }}>
           Add Exam
         </Button>
       </Box>
-      <TableContainer component={Paper} sx={{ borderRadius: 3, boxShadow: "0 2px 12px rgba(0,0,0,0.08)" }}>
+      <TableContainer component={Paper} sx={{ borderRadius: 3, boxShadow: "0 2px 12px rgba(0,0,0,0.3)", background: "#112211" }}>
         <Table>
           <TableHead className="admin-table-header">
             <TableRow>
@@ -57,14 +57,14 @@ var ExamManager = function() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {exams.map(function(e, i) {
+            {exams.map(function (e, i) {
               return (
-                <TableRow key={e.id} hover>
-                  <TableCell>{i + 1}</TableCell>
-                  <TableCell sx={{ fontWeight: 500 }}>{e.name}</TableCell>
+                <TableRow key={e.id} hover sx={{ "&:hover": { background: "rgba(46,204,113,0.05)" } }}>
+                  <TableCell sx={{ color: "#c0c0c0" }}>{i + 1}</TableCell>
+                  <TableCell sx={{ fontWeight: 500, color: "#e0e0e0" }}>{e.name}</TableCell>
                   <TableCell>
-                    <IconButton sx={{ color: "#7c4dff" }} onClick={function() { handleOpen(e); }}><EditIcon /></IconButton>
-                    <IconButton sx={{ color: "#c62828" }} onClick={function() { confirmDelete(e.id); }}><DeleteForeverIcon /></IconButton>
+                    <IconButton sx={{ color: "#2ecc71" }} onClick={function () { handleOpen(e); }}><EditIcon /></IconButton>
+                    <IconButton sx={{ color: "#e74c3c" }} onClick={function () { confirmDelete(e.id); }}><DeleteForeverIcon /></IconButton>
                   </TableCell>
                 </TableRow>
               );
@@ -73,27 +73,28 @@ var ExamManager = function() {
         </Table>
       </TableContainer>
 
-      <Dialog open={open} onClose={function() { setOpen(false); }} maxWidth="sm" fullWidth PaperProps={{ sx: { borderRadius: 3 } }}>
-        <DialogTitle sx={{ fontWeight: 700, color: "#1a237e" }}>{editId ? "Edit Exam" : "Add Exam"}</DialogTitle>
+      <Dialog open={open} onClose={function () { setOpen(false); }} maxWidth="sm" fullWidth PaperProps={{ sx: { borderRadius: 3, background: "#112211", color: "#e0e0e0" } }}>
+        <DialogTitle sx={{ fontWeight: 700, color: "#2ecc71" }}>{editId ? "Edit Exam" : "Add Exam"}</DialogTitle>
         <DialogContent sx={{ pt: "16px !important" }}>
-          <TextField fullWidth label="Exam Name" value={form.name} onChange={function(e) { setForm({ name: e.target.value }); }} />
+          <TextField fullWidth label="Exam Name" value={form.name} onChange={function (e) { setForm({ name: e.target.value }); }}
+            sx={{ "& .MuiOutlinedInput-root": { color: "#e0e0e0" }, "& .MuiInputLabel-root": { color: "#8fbc8f" }, "& .MuiOutlinedInput-notchedOutline": { borderColor: "rgba(46,204,113,0.3)" } }} />
         </DialogContent>
         <DialogActions sx={{ p: 2 }}>
-          <Button onClick={function() { setOpen(false); }}>Cancel</Button>
-          <Button variant="contained" onClick={handleSave} sx={{ background: "#7c4dff" }}>Save</Button>
+          <Button onClick={function () { setOpen(false); }} sx={{ color: "#8fbc8f" }}>Cancel</Button>
+          <Button variant="contained" onClick={handleSave} sx={{ background: "#2ecc71" }}>Save</Button>
         </DialogActions>
       </Dialog>
 
-      <Dialog open={deleteOpen} onClose={function() { setDeleteOpen(false); }} PaperProps={{ sx: { borderRadius: 3 } }}>
-        <DialogTitle sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <WarningAmberIcon sx={{ color: "#ff6d00" }} /> Confirm Delete
+      <Dialog open={deleteOpen} onClose={function () { setDeleteOpen(false); }} PaperProps={{ sx: { borderRadius: 3, background: "#112211", color: "#e0e0e0" } }}>
+        <DialogTitle sx={{ display: "flex", alignItems: "center", gap: 1, color: "#f39c12" }}>
+          <WarningAmberIcon sx={{ color: "#f39c12" }} /> Confirm Delete
         </DialogTitle>
         <DialogContent>
-          <Typography>Are you sure you want to delete this exam? All associated questions will also be deleted.</Typography>
+          <Typography sx={{ color: "#c0c0c0" }}>Are you sure you want to delete this exam? All associated questions will also be deleted.</Typography>
         </DialogContent>
         <DialogActions sx={{ p: 2 }}>
           <Button variant="contained" color="error" onClick={handleDelete}>Yes, Delete</Button>
-          <Button variant="outlined" onClick={function() { setDeleteOpen(false); }}>Cancel</Button>
+          <Button variant="outlined" onClick={function () { setDeleteOpen(false); }} sx={{ borderColor: "#2ecc71", color: "#2ecc71" }}>Cancel</Button>
         </DialogActions>
       </Dialog>
     </Box>

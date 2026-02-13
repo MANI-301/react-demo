@@ -8,7 +8,7 @@ import {
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import "../../styles/register.css";
 
-const validatePassword = (pwd) => {
+var validatePassword = function (pwd) {
   if (pwd.length < 6) return "Password must be at least 6 characters";
   if (!/[A-Z]/.test(pwd)) return "Password must contain an uppercase letter";
   if (!/[a-z]/.test(pwd)) return "Password must contain a lowercase letter";
@@ -17,24 +17,24 @@ const validatePassword = (pwd) => {
   return "";
 };
 
-const validateContact = (contact) => {
+var validateContact = function (contact) {
   if (contact && !/^\d{10}$/.test(contact)) return "Contact must be exactly 10 digits";
   return "";
 };
 
-const StudentRegister = () => {
-  const [form, setForm] = useState({
+var StudentRegister = function () {
+  var [form, setForm] = useState({
     fullName: "", email: "", contact: "", gender: "Male", password: "", confirmPassword: ""
   });
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-  const navigate = useNavigate();
+  var [error, setError] = useState("");
+  var [success, setSuccess] = useState("");
+  var navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  var handleChange = function (e) {
+    setForm(Object.assign({}, form, { [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
+  var handleSubmit = function (e) {
     e.preventDefault();
     setError("");
     setSuccess("");
@@ -47,7 +47,7 @@ const StudentRegister = () => {
     var contactError = validateContact(form.contact);
     if (contactError) { setError(contactError); return; }
     var users = getUsers();
-    if (users.find(function(u) { return u.email === form.email; })) {
+    if (users.find(function (u) { return u.email === form.email; })) {
       setError("Email already registered"); return;
     }
     addUser({
@@ -55,7 +55,7 @@ const StudentRegister = () => {
       gender: form.gender, password: form.password
     });
     setSuccess("Registration successful! Redirecting to login...");
-    setTimeout(function() { navigate("/"); }, 1500);
+    setTimeout(function () { navigate("/"); }, 1500);
   };
 
   return (
@@ -64,7 +64,7 @@ const StudentRegister = () => {
         <Card className="register-card">
           <div className="register-header">
             <PersonAddIcon sx={{ fontSize: 48, color: "#fff", mb: 1 }} />
-            <Typography variant="h4" sx={{ color: "#fff", fontWeight: 700 }}>QuizME</Typography>
+            <Typography variant="h4" sx={{ color: "#fff", fontWeight: 700 }}>Quiz App</Typography>
             <Typography variant="subtitle1" sx={{ color: "rgba(255,255,255,0.85)" }}>Student Registration</Typography>
           </div>
           <CardContent className="register-body">
@@ -78,9 +78,9 @@ const StudentRegister = () => {
               <FormControl sx={{ mb: 2 }}>
                 <FormLabel>Gender</FormLabel>
                 <RadioGroup row name="gender" value={form.gender} onChange={handleChange}>
-                  <FormControlLabel value="Male" control={<Radio sx={{ color: "#7c4dff", "&.Mui-checked": { color: "#7c4dff" } }} />} label="Male" />
-                  <FormControlLabel value="Female" control={<Radio sx={{ color: "#7c4dff", "&.Mui-checked": { color: "#7c4dff" } }} />} label="Female" />
-                  <FormControlLabel value="Other" control={<Radio sx={{ color: "#7c4dff", "&.Mui-checked": { color: "#7c4dff" } }} />} label="Other" />
+                  <FormControlLabel value="Male" control={<Radio sx={{ color: "#2ecc71", "&.Mui-checked": { color: "#2ecc71" } }} />} label={<Typography sx={{ color: "#c0c0c0" }}>Male</Typography>} />
+                  <FormControlLabel value="Female" control={<Radio sx={{ color: "#2ecc71", "&.Mui-checked": { color: "#2ecc71" } }} />} label={<Typography sx={{ color: "#c0c0c0" }}>Female</Typography>} />
+                  <FormControlLabel value="Other" control={<Radio sx={{ color: "#2ecc71", "&.Mui-checked": { color: "#2ecc71" } }} />} label={<Typography sx={{ color: "#c0c0c0" }}>Other</Typography>} />
                 </RadioGroup>
               </FormControl>
               <TextField fullWidth label="Password" name="password" type="password" value={form.password} onChange={handleChange} sx={{ mb: 1 }} required
@@ -88,15 +88,15 @@ const StudentRegister = () => {
               <TextField fullWidth label="Confirm Password" name="confirmPassword" type="password" value={form.confirmPassword} onChange={handleChange} sx={{ mb: 3, mt: 1 }} required />
               <Box sx={{ display: "flex", gap: 2 }}>
                 <Button type="submit" variant="contained" fullWidth sx={{
-                  py: 1.5, background: "linear-gradient(135deg, #7c4dff, #651fff)", fontWeight: 600,
-                  "&:hover": { background: "linear-gradient(135deg, #651fff, #6200ea)" }
+                  py: 1.5, background: "linear-gradient(135deg, #1a6b3c, #2ecc71)", fontWeight: 600,
+                  "&:hover": { background: "linear-gradient(135deg, #2ecc71, #27ae60)" }
                 }}>Submit</Button>
-                <Button variant="outlined" fullWidth onClick={function() { navigate("/"); }}
-                  sx={{ py: 1.5, fontWeight: 600, borderColor: "#7c4dff", color: "#7c4dff" }}>Cancel</Button>
+                <Button variant="outlined" fullWidth onClick={function () { navigate("/"); }}
+                  sx={{ py: 1.5, fontWeight: 600, borderColor: "#2ecc71", color: "#2ecc71" }}>Cancel</Button>
               </Box>
             </form>
             <Box sx={{ textAlign: "center", mt: 2 }}>
-              <Link to="/" style={{ color: "#7c4dff", textDecoration: "none", fontWeight: 600 }}>Already registered? Login here</Link>
+              <Link to="/" style={{ color: "#2ecc71", textDecoration: "none", fontWeight: 600 }}>Already registered? Login here</Link>
             </Box>
           </CardContent>
         </Card>
