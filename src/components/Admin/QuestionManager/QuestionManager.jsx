@@ -23,6 +23,7 @@ var QuestionManager = function () {
   var [editId, setEditId] = useState(null);
   var [form, setForm] = useState({ question: "", optionA: "", optionB: "", optionC: "", optionD: "", correctOption: "A" });
 
+<<<<<<< HEAD
   useEffect(function () { 
     async function loadExams() {
       const data = await getExams();
@@ -49,6 +50,15 @@ var QuestionManager = function () {
       setQuestions(data);
     }
   };
+=======
+  useEffect(function () { setExams(getExams()); }, []);
+  useEffect(function () {
+    if (selectedExamId) setQuestions(getQuestionsByExam(parseInt(selectedExamId)));
+    else setQuestions([]);
+  }, [selectedExamId]);
+
+  var reload = function () { if (selectedExamId) setQuestions(getQuestionsByExam(parseInt(selectedExamId))); };
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
 
   var handleOpen = function (q) {
     if (q) { setEditId(q.id); setForm({ question: q.question, optionA: q.optionA, optionB: q.optionB, optionC: q.optionC, optionD: q.optionD, correctOption: q.correctOption }); }
@@ -56,6 +66,7 @@ var QuestionManager = function () {
     setOpen(true);
   };
 
+<<<<<<< HEAD
   var handleSave = async function () {
     if (!form.question || !selectedExamId) return;
     if (editId) await updateQuestion(editId, form);
@@ -74,6 +85,19 @@ var QuestionManager = function () {
   };
 
   var selectedExam = exams.find(function (e) { return e.id === selectedExamId; });
+=======
+  var handleSave = function () {
+    if (!form.question || !selectedExamId) return;
+    if (editId) updateQuestion(editId, form);
+    else addQuestion(Object.assign({}, form, { examId: parseInt(selectedExamId) }));
+    setOpen(false); reload();
+  };
+
+  var confirmDelete = function (id) { setDeleteId(id); setDeleteOpen(true); };
+  var handleDelete = function () { deleteQuestion(deleteId); setDeleteOpen(false); setDeleteId(null); reload(); };
+
+  var selectedExam = exams.find(function (e) { return e.id === parseInt(selectedExamId); });
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
   var dialogSx = { "& .MuiOutlinedInput-root": { color: "#e0e0e0" }, "& .MuiInputLabel-root": { color: "#8fbc8f" }, "& .MuiOutlinedInput-notchedOutline": { borderColor: "rgba(46,204,113,0.3)" } };
 
   return (
@@ -85,7 +109,11 @@ var QuestionManager = function () {
         <Select value={selectedExamId} label="Select Exam" onChange={function (e) { setSelectedExamId(e.target.value); }}
           sx={{ color: "#e0e0e0", "& .MuiOutlinedInput-notchedOutline": { borderColor: "rgba(46,204,113,0.3)" } }}>
           {exams.map(function (e) {
+<<<<<<< HEAD
             return <MenuItem key={e.id} value={e.id}>{e.name}</MenuItem>;
+=======
+            return <MenuItem key={e.id} value={e.id.toString()}>{e.name}</MenuItem>;
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
           })}
         </Select>
       </FormControl>
@@ -169,4 +197,8 @@ var QuestionManager = function () {
   );
 };
 
+<<<<<<< HEAD
 export default QuestionManager;
+=======
+export default QuestionManager;
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2

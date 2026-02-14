@@ -16,11 +16,19 @@ var StudentLogin = function () {
   var [error, setError] = useState("");
   var navigate = useNavigate();
 
+<<<<<<< HEAD
   var handleLogin = async function (e) {
     e.preventDefault();
     setError("");
     if (!email || !password) { setError("Please fill in all fields"); return; }
     var user = await loginUser(email, password);
+=======
+  var handleLogin = function (e) {
+    e.preventDefault();
+    setError("");
+    if (!email || !password) { setError("Please fill in all fields"); return; }
+    var user = loginUser(email, password);
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
     if (user && user.role === "student") {
       sessionStorage.setItem("currentUser", JSON.stringify(user));
       navigate("/voucher");
@@ -69,4 +77,8 @@ var StudentLogin = function () {
   );
 };
 
+<<<<<<< HEAD
 export default StudentLogin;
+=======
+export default StudentLogin;
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2

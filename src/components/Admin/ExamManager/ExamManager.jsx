@@ -19,11 +19,15 @@ var ExamManager = function () {
   var [editId, setEditId] = useState(null);
   var [form, setForm] = useState({ name: "" });
 
+<<<<<<< HEAD
   var load = async function () { 
     const data = await getExams();
     setExams(data); 
   };
   
+=======
+  var load = function () { setExams(getExams()); };
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
   useEffect(function () { load(); }, []);
 
   var handleOpen = function (e) {
@@ -32,6 +36,7 @@ var ExamManager = function () {
     setOpen(true);
   };
 
+<<<<<<< HEAD
   var handleSave = async function () {
     if (!form.name) return;
     if (editId) await updateExam(editId, form);
@@ -48,6 +53,17 @@ var ExamManager = function () {
     setDeleteId(null); 
     load(); 
   };
+=======
+  var handleSave = function () {
+    if (!form.name) return;
+    if (editId) updateExam(editId, form);
+    else addExam(form);
+    setOpen(false); load();
+  };
+
+  var confirmDelete = function (id) { setDeleteId(id); setDeleteOpen(true); };
+  var handleDelete = function () { deleteExam(deleteId); setDeleteOpen(false); setDeleteId(null); load(); };
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
 
   return (
     <Box>
@@ -112,4 +128,8 @@ var ExamManager = function () {
   );
 };
 
+<<<<<<< HEAD
 export default ExamManager;
+=======
+export default ExamManager;
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2

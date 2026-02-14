@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 import { useState, useEffect } from "react";
 import { Typography, Card, CardContent, Box, Chip } from "@mui/material";
+=======
+import { Typography, Card, CardContent, Box, Avatar, Chip, Button } from "@mui/material";
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
 import { getExams, getVouchers, getResults, getQuestions, getUsers } from "../../../services/api.js";
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
 import QuizIcon from "@mui/icons-material/Quiz";
@@ -16,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import "../../../styles/admin.css";
 
 var DashboardHome = function () {
+<<<<<<< HEAD
   var [exams, setExams] = useState([]);
   var [vouchers, setVouchers] = useState([]);
   var [results, setResults] = useState([]);
@@ -44,10 +49,21 @@ var DashboardHome = function () {
     }
   };
 
+=======
+  var exams = getExams();
+  var vouchers = getVouchers();
+  var results = getResults();
+  var questions = getQuestions();
+  var users = getUsers();
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
   var students = users.filter(function (u) { return u.role === "student"; });
   var passCount = results.filter(function (r) { return r.status === "Pass"; }).length;
   var failCount = results.filter(function (r) { return r.status === "Fail"; }).length;
   var activeVouchers = vouchers.filter(function (v) { return v.active; }).length;
+<<<<<<< HEAD
+=======
+  var navigate = useNavigate();
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
 
   var stats = [
     { label: "Total Exams", value: exams.length, icon: <QuizIcon sx={{ fontSize: 28, color: "#fff" }} />, bg: "linear-gradient(135deg, #1a6b3c, #2ecc71)" },
@@ -139,11 +155,15 @@ var DashboardHome = function () {
               Available Exams
             </Typography>
             {exams.map(function (exam) {
+<<<<<<< HEAD
               // FIX: Convert both to String to ensure strict type matching doesn't fail
               var qCount = questions.filter(function (q) { 
                 return String(q.examId) === String(exam.id); 
               }).length;
               
+=======
+              var qCount = questions.filter(function (q) { return q.examId === exam.id; }).length;
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
               return (
                 <Box key={exam.id} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", py: 1, borderBottom: "1px solid rgba(46,204,113,0.1)" }}>
                   <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
@@ -161,4 +181,8 @@ var DashboardHome = function () {
   );
 };
 
+<<<<<<< HEAD
 export default DashboardHome;
+=======
+export default DashboardHome;
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2

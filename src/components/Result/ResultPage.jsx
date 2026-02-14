@@ -1,9 +1,15 @@
+<<<<<<< HEAD
 import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Confetti from "react-confetti";
 import {
   Container, Card, CardContent, Typography, Box, Button, Divider,
   Dialog, DialogTitle, DialogContent, DialogActions, IconButton, Zoom
+=======
+import { useLocation, useNavigate } from "react-router-dom";
+import {
+  Container, Card, CardContent, Typography, Box, Button, Divider
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
 } from "@mui/material";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
@@ -11,12 +17,16 @@ import HomeIcon from "@mui/icons-material/Home";
 import ReplayIcon from "@mui/icons-material/Replay";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
+<<<<<<< HEAD
 import CloseIcon from "@mui/icons-material/Close";
+=======
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
 import "../../styles/result.css";
 
 var ResultPage = function () {
   var location = useLocation();
   var navigate = useNavigate();
+<<<<<<< HEAD
   var [showPopup, setShowPopup] = useState(false);
   var [showConfetti, setShowConfetti] = useState(false); // 1. New State for Confetti
   var [windowSize, setWindowSize] = useState({ width: window.innerWidth, height: window.innerHeight });
@@ -66,6 +76,10 @@ var ResultPage = function () {
   };
 
 
+=======
+  var result = location.state ? location.state.result : null;
+
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
   if (!result) {
     return (
       <Box sx={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#0a1a0a" }}>
@@ -81,6 +95,7 @@ var ResultPage = function () {
 
   return (
     <div className="result-wrapper">
+<<<<<<< HEAD
       {/* 3. Use showConfetti state instead of just isPassed */}
       {isPassed && showConfetti && (
         <Confetti
@@ -94,6 +109,10 @@ var ResultPage = function () {
 
       <Container maxWidth="md">
         <Card ref={cardRef} className="result-card">
+=======
+      <Container maxWidth="md">
+        <Card className="result-card">
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
           <div className="result-header">
             <Typography variant="h5" sx={{ fontWeight: 700 }}>Quiz App - Results</Typography>
           </div>
@@ -119,7 +138,10 @@ var ResultPage = function () {
                 </Typography>
               </Box>
             )}
+<<<<<<< HEAD
             
+=======
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
             <Box sx={{ mt: 2, display: "flex", justifyContent: "center", gap: 3 }}>
               <Box className="result-summary-box" sx={{ textAlign: "center", px: 3 }}>
                 <Typography variant="h6" sx={{ fontWeight: 700, color: "#2ecc71" }}>{result.totalMarks}</Typography>
@@ -168,6 +190,7 @@ var ResultPage = function () {
           </Box>
         </Card>
       </Container>
+<<<<<<< HEAD
 
       <Dialog 
         open={showPopup} 
@@ -214,8 +237,14 @@ var ResultPage = function () {
           </Button>
         </DialogActions>
       </Dialog>
+=======
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
     </div>
   );
 };
 
+<<<<<<< HEAD
 export default ResultPage;
+=======
+export default ResultPage;
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2

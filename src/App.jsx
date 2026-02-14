@@ -11,7 +11,11 @@ import VoucherManager from "./components/Admin/VoucherManager/VoucherManager.jsx
 import ExamManager from "./components/Admin/ExamManager/ExamManager.jsx";
 import QuestionManager from "./components/Admin/QuestionManager/QuestionManager.jsx";
 import ResultManager from "./components/Admin/ResultManager/ResultManager.jsx";
+<<<<<<< HEAD
 // import "bootstrap/dist/css/bootstrap.min.css";
+=======
+import "bootstrap/dist/css/bootstrap.min.css";
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
 
 var App = function() {
   return (

@@ -18,6 +18,7 @@ var AdminLogin = function () {
   var [error, setError] = useState("");
   var navigate = useNavigate();
 
+<<<<<<< HEAD
   var handleLogin = async function (e) {
     e.preventDefault();
     setError("");
@@ -33,6 +34,18 @@ var AdminLogin = function () {
       }
     } catch (err) {
       setError("Login failed. Check server.");
+=======
+  var handleLogin = function (e) {
+    e.preventDefault();
+    setError("");
+    if (!email || !password) { setError("Please fill in all fields"); return; }
+    var user = loginUser(email, password);
+    if (user && user.role === "admin") {
+      sessionStorage.setItem("currentUser", JSON.stringify(user));
+      navigate("/admin/dashboard");
+    } else {
+      setError("Invalid admin credentials");
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
     }
   };
 
@@ -76,4 +89,8 @@ var AdminLogin = function () {
   );
 };
 
+<<<<<<< HEAD
 export default AdminLogin;
+=======
+export default AdminLogin;
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2

@@ -17,12 +17,16 @@ var ResultManager = function () {
   var [deleteOpen, setDeleteOpen] = useState(false);
   var [deleteId, setDeleteId] = useState(null);
 
+<<<<<<< HEAD
   // Async load function
   var load = async function () { 
     const data = await getResults();
     setResults(data); 
   };
   
+=======
+  var load = function () { setResults(getResults()); };
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
   useEffect(function () { load(); }, []);
 
   var filtered = results.filter(function (r) {
@@ -31,9 +35,14 @@ var ResultManager = function () {
   });
 
   var confirmDelete = function (id) { setDeleteId(id); setDeleteOpen(true); };
+<<<<<<< HEAD
   
   var handleDelete = async function () {
     await deleteResult(deleteId);
+=======
+  var handleDelete = function () {
+    deleteResult(deleteId);
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
     setDeleteOpen(false);
     setDeleteId(null);
     load();
@@ -107,4 +116,8 @@ var ResultManager = function () {
   );
 };
 
+<<<<<<< HEAD
 export default ResultManager;
+=======
+export default ResultManager;
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2

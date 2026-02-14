@@ -31,6 +31,7 @@ var QuizPage = function () {
   var timerRef = useRef(null);
 
   useEffect(function () {
+<<<<<<< HEAD
     async function loadQuiz() {
         var eid = examId; // Keep as string or convert if needed
         var qs = await getRandomQuestions(eid, QUESTIONS_PER_QUIZ);
@@ -45,6 +46,19 @@ var QuizPage = function () {
   }, [examId]);
 
   var doSubmit = useCallback(async function () {
+=======
+    var eid = parseInt(examId || "0");
+    var qs = getRandomQuestions(eid, QUESTIONS_PER_QUIZ);
+    setQuestions(qs);
+    var exams = getExams();
+    var exam = exams.find(function (e) { return e.id === eid; });
+    if (exam) setExamName(exam.name);
+    setTimeLeft(QUIZ_TIME_SECONDS);
+    setSubmitted(false);
+  }, [examId]);
+
+  var doSubmit = useCallback(function () {
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
     if (submitted) return;
     setSubmitted(true);
     if (timerRef.current) clearInterval(timerRef.current);
@@ -65,14 +79,22 @@ var QuizPage = function () {
     var result = {
       studentName: currentUser.fullName || "Unknown",
       studentEmail: currentUser.email || "",
+<<<<<<< HEAD
       examId: examId, 
       examName: examName,
+=======
+      examId: parseInt(examId || "0"), examName: examName,
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
       totalMarks: questions.length, obtainedMarks: score,
       score: score, totalQuestions: questions.length,
       status: score >= questions.length / 2 ? "Pass" : "Fail",
       details: details, date: new Date().toISOString()
     };
+<<<<<<< HEAD
     await addResult(result);
+=======
+    addResult(result);
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
     navigate("/result", { state: { result: result } });
   }, [submitted, questions, answers, examId, examName, currentUser, navigate]);
 
@@ -109,7 +131,11 @@ var QuizPage = function () {
   if (questions.length === 0) {
     return (
       <Box sx={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#0a1a0a" }}>
+<<<<<<< HEAD
         <Typography variant="h5" sx={{ color: "#2ecc71" }}>Loading questions or no questions found...</Typography>
+=======
+        <Typography variant="h5" sx={{ color: "#2ecc71" }}>No questions found for this exam.</Typography>
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
       </Box>
     );
   }
@@ -217,4 +243,8 @@ var QuizPage = function () {
   );
 };
 
+<<<<<<< HEAD
 export default QuizPage;
+=======
+export default QuizPage;
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2

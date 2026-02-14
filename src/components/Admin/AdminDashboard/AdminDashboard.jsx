@@ -36,12 +36,15 @@ var AdminDashboard = function () {
 
   var drawer = (
     <Box>
+<<<<<<< HEAD
       {/* 1. Standard Spacer to clear the AppBar */}
       <Toolbar />
       
       {/* 2. NEW GAP: This creates the vertical space between the Nav and Sidebar content */}
       <Box sx={{ height:0}} /> 
 
+=======
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
       <div className="admin-sidebar-header">
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           <Avatar sx={{ background: "linear-gradient(135deg, #1a6b3c, #2ecc71)", width: 44, height: 44 }}>
@@ -92,12 +95,16 @@ var AdminDashboard = function () {
           </Box>
         </Toolbar>
       </AppBar>
+<<<<<<< HEAD
       
       {/* Mobile Drawer */}
+=======
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
       <Drawer variant="temporary" open={mobileOpen} onClose={function () { setMobileOpen(false); }}
         sx={{ display: { xs: "block", md: "none" }, "& .MuiDrawer-paper": { width: drawerWidth, background: "#0d1f0d", color: "#e0e0e0" } }}>
         {drawer}
       </Drawer>
+<<<<<<< HEAD
       
       {/* Desktop Drawer */}
       <Drawer variant="permanent"
@@ -113,10 +120,21 @@ var AdminDashboard = function () {
       {/* Main Content */}
       <Box component="main" className="admin-content" sx={{ flexGrow: 1, p: 3, width: { md: `calc(100% - ${drawerWidth}px)` }, minHeight: "100vh" }}>
         <Toolbar /> {/* Spacer for AppBar */}
+=======
+      <Drawer variant="permanent"
+        sx={{ display: { xs: "none", md: "block" }, "& .MuiDrawer-paper": { width: drawerWidth, boxSizing: "border-box", background: "#0d1f0d", color: "#e0e0e0" } }} open>
+        {drawer}
+      </Drawer>
+      <Box component="main" className="admin-content" sx={{ flexGrow: 1, p: 3, pt: 5, mt: 8, ml: { md: drawerWidth + "px" } }}>
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
         <Outlet />
       </Box>
     </Box>
   );
 };
 
+<<<<<<< HEAD
 export default AdminDashboard;
+=======
+export default AdminDashboard;
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2

@@ -34,12 +34,19 @@ var StudentRegister = function () {
     setForm(Object.assign({}, form, { [e.target.name]: e.target.value }));
   };
 
+<<<<<<< HEAD
   var handleSubmit = async function (e) {
     e.preventDefault();
     setError("");
     setSuccess("");
     
     // Validation
+=======
+  var handleSubmit = function (e) {
+    e.preventDefault();
+    setError("");
+    setSuccess("");
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
     if (!form.fullName || !form.email || !form.password || !form.confirmPassword) {
       setError("Please fill in all required fields"); return;
     }
@@ -48,6 +55,7 @@ var StudentRegister = function () {
     if (form.password !== form.confirmPassword) { setError("Passwords do not match"); return; }
     var contactError = validateContact(form.contact);
     if (contactError) { setError(contactError); return; }
+<<<<<<< HEAD
 
     try {
       // Async Check: Does user exist?
@@ -67,6 +75,18 @@ var StudentRegister = function () {
     } catch (err) {
       setError("Registration failed. Please try again.");
     }
+=======
+    var users = getUsers();
+    if (users.find(function (u) { return u.email === form.email; })) {
+      setError("Email already registered"); return;
+    }
+    addUser({
+      fullName: form.fullName, email: form.email, contact: form.contact,
+      gender: form.gender, password: form.password
+    });
+    setSuccess("Registration successful! Redirecting to login...");
+    setTimeout(function () { navigate("/"); }, 1500);
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
   };
 
   return (
@@ -116,4 +136,8 @@ var StudentRegister = function () {
   );
 };
 
+<<<<<<< HEAD
 export default StudentRegister;
+=======
+export default StudentRegister;
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2

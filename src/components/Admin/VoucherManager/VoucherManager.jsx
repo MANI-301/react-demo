@@ -20,6 +20,7 @@ var VoucherManager = function () {
   var [editId, setEditId] = useState(null);
   var [form, setForm] = useState({ code: "", examId: "", active: true });
 
+<<<<<<< HEAD
   // Async data loading
   var load = async function () { 
     try {
@@ -81,6 +82,27 @@ var VoucherManager = function () {
     await updateVoucher(v.id, { active: !v.active }); 
     load(); 
   };
+=======
+  var load = function () { setVouchers(getVouchers()); setExams(getExams()); };
+  useEffect(function () { load(); }, []);
+
+  var handleOpen = function (v) {
+    if (v) { setEditId(v.id); setForm({ code: v.code, examId: v.examId.toString(), active: v.active }); }
+    else { setEditId(null); setForm({ code: "", examId: "", active: true }); }
+    setOpen(true);
+  };
+
+  var handleSave = function () {
+    if (!form.code || !form.examId) return;
+    if (editId) updateVoucher(editId, { code: form.code, examId: parseInt(form.examId), active: form.active });
+    else addVoucher({ code: form.code, examId: parseInt(form.examId), active: form.active });
+    setOpen(false); load();
+  };
+
+  var confirmDelete = function (id) { setDeleteId(id); setDeleteOpen(true); };
+  var handleDelete = function () { deleteVoucher(deleteId); setDeleteOpen(false); setDeleteId(null); load(); };
+  var handleToggle = function (v) { updateVoucher(v.id, { active: !v.active }); load(); };
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
 
   return (
     <Box>
@@ -134,7 +156,11 @@ var VoucherManager = function () {
             <InputLabel sx={{ color: "#8fbc8f" }}>Exam</InputLabel>
             <Select value={form.examId} label="Exam" onChange={function (e) { setForm(Object.assign({}, form, { examId: e.target.value })); }}
               sx={{ color: "#e0e0e0", "& .MuiOutlinedInput-notchedOutline": { borderColor: "rgba(46,204,113,0.3)" } }}>
+<<<<<<< HEAD
               {exams.map(function (e) { return <MenuItem key={e.id} value={e.id}>{e.name}</MenuItem>; })}
+=======
+              {exams.map(function (e) { return <MenuItem key={e.id} value={e.id.toString()}>{e.name}</MenuItem>; })}
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
             </Select>
           </FormControl>
         </DialogContent>
@@ -158,4 +184,8 @@ var VoucherManager = function () {
   );
 };
 
+<<<<<<< HEAD
 export default VoucherManager;
+=======
+export default VoucherManager;
+>>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
