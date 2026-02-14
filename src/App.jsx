@@ -4,6 +4,7 @@ import StudentRegister from "./components/Register/StudentRegister.jsx";
 import VoucherPage from "./components/StudentDashboard/VoucherPage.jsx";
 import QuizPage from "./components/Quiz/QuizPage.jsx";
 import ResultPage from "./components/Result/ResultPage.jsx";
+import LeaderboardPage from "./components/Leaderboard/LeaderboardPage.jsx";
 import AdminLogin from "./components/Admin/AdminLogin/AdminLogin.jsx";
 import AdminDashboard from "./components/Admin/AdminDashboard/AdminDashboard.jsx";
 import DashboardHome from "./components/Admin/AdminDashboard/DashboardHome.jsx";
@@ -11,11 +12,6 @@ import VoucherManager from "./components/Admin/VoucherManager/VoucherManager.jsx
 import ExamManager from "./components/Admin/ExamManager/ExamManager.jsx";
 import QuestionManager from "./components/Admin/QuestionManager/QuestionManager.jsx";
 import ResultManager from "./components/Admin/ResultManager/ResultManager.jsx";
-<<<<<<< HEAD
-// import "bootstrap/dist/css/bootstrap.min.css";
-=======
-import "bootstrap/dist/css/bootstrap.min.css";
->>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
 
 var App = function() {
   return (
@@ -26,6 +22,7 @@ var App = function() {
         <Route path="/voucher" element={<VoucherPage />} />
         <Route path="/quiz/:examId" element={<QuizPage />} />
         <Route path="/result" element={<ResultPage />} />
+        <Route path="/leaderboard" element={<LeaderboardPage />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin" element={<AdminDashboard />}>
           <Route path="dashboard" element={<DashboardHome />} />

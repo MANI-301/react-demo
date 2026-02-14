@@ -16,19 +16,11 @@ var StudentLogin = function () {
   var [error, setError] = useState("");
   var navigate = useNavigate();
 
-<<<<<<< HEAD
-  var handleLogin = async function (e) {
-    e.preventDefault();
-    setError("");
-    if (!email || !password) { setError("Please fill in all fields"); return; }
-    var user = await loginUser(email, password);
-=======
   var handleLogin = function (e) {
     e.preventDefault();
     setError("");
     if (!email || !password) { setError("Please fill in all fields"); return; }
     var user = loginUser(email, password);
->>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
     if (user && user.role === "student") {
       sessionStorage.setItem("currentUser", JSON.stringify(user));
       navigate("/voucher");
@@ -39,36 +31,41 @@ var StudentLogin = function () {
 
   return (
     <div className="login-wrapper">
+      <div className="login-bg-shapes">
+        <div className="shape shape-1"></div>
+        <div className="shape shape-2"></div>
+        <div className="shape shape-3"></div>
+        <div className="shape shape-4"></div>
+      </div>
       <Container maxWidth="sm">
         <Card className="login-card">
           <div className="login-header">
-            <SchoolIcon sx={{ fontSize: 48, color: "#fff", mb: 1 }} />
-            <Typography variant="h4" sx={{ color: "#fff", fontWeight: 700 }}>Quiz App</Typography>
-            <Typography variant="subtitle1" sx={{ color: "rgba(255,255,255,0.85)" }}>Student Login</Typography>
+            <div className="login-icon-wrap">
+              <SchoolIcon sx={{ fontSize: 52, color: "#fff" }} />
+            </div>
+            <Typography variant="h4" sx={{ color: "#fff", fontWeight: 800, letterSpacing: 1 }}>Quiz App</Typography>
+            <Typography variant="subtitle1" sx={{ color: "rgba(255,255,255,0.9)", fontWeight: 500 }}>Student Login</Typography>
           </div>
           <CardContent className="login-body">
             {error && <Alert severity="error" sx={{ mb: 2, borderRadius: 2 }}>{error}</Alert>}
             <form onSubmit={handleLogin}>
               <TextField fullWidth label="Email ID" value={email} onChange={function (e) { setEmail(e.target.value); }} sx={{ mb: 3 }}
-                InputProps={{ startAdornment: <InputAdornment position="start"><EmailIcon sx={{ color: "#2ecc71" }} /></InputAdornment> }}
+                InputProps={{ startAdornment: <InputAdornment position="start"><EmailIcon sx={{ color: "#4caf50" }} /></InputAdornment> }}
               />
               <TextField fullWidth label="Password" type="password" value={password} onChange={function (e) { setPassword(e.target.value); }} sx={{ mb: 3 }}
-                InputProps={{ startAdornment: <InputAdornment position="start"><LockIcon sx={{ color: "#2ecc71" }} /></InputAdornment> }}
+                InputProps={{ startAdornment: <InputAdornment position="start"><LockIcon sx={{ color: "#4caf50" }} /></InputAdornment> }}
               />
               <Box sx={{ display: "flex", gap: 2 }}>
-                <Button type="submit" variant="contained" fullWidth sx={{
-                  py: 1.5, background: "linear-gradient(135deg, #1a6b3c, #2ecc71)", fontWeight: 600,
-                  "&:hover": { background: "linear-gradient(135deg, #2ecc71, #27ae60)" }
-                }}>Login</Button>
+                <Button type="submit" variant="contained" fullWidth className="btn-login">Login</Button>
                 <Button variant="outlined" fullWidth onClick={function () { setEmail(""); setPassword(""); setError(""); }}
-                  sx={{ py: 1.5, fontWeight: 600, borderColor: "#2ecc71", color: "#2ecc71" }}>Cancel</Button>
+                  className="btn-cancel">Cancel</Button>
               </Box>
             </form>
             <Box sx={{ textAlign: "center", mt: 2 }}>
-              <Link to="/register" style={{ color: "#2ecc71", textDecoration: "none", fontWeight: 600 }}>New user register here</Link>
+              <Link to="/register" className="link-register">New user? Register here</Link>
             </Box>
             <Box sx={{ textAlign: "center", mt: 1 }}>
-              <Link to="/admin/login" style={{ color: "#daa520", textDecoration: "none", fontSize: "0.875rem" }}>Admin Login</Link>
+              <Link to="/admin/login" className="link-admin">Admin Login</Link>
             </Box>
           </CardContent>
         </Card>
@@ -77,8 +74,4 @@ var StudentLogin = function () {
   );
 };
 
-<<<<<<< HEAD
 export default StudentLogin;
-=======
-export default StudentLogin;
->>>>>>> 8f82cefc6e848a1ca93a27667dd31e7478347de2
